@@ -27,4 +27,28 @@ export interface AxiosRequestConfig {
   data?: any
   params?: any
   headers?: any
+  responseType?: XMLHttpRequestResponseType // type XMLHttpRequestResponseType = "" | "arraybuffer" | "blob" | "document" | "json" | "text"
+  timeout?: number
+}
+
+export interface AxiosResponse {
+  data: any
+  status: number
+  statusText: string
+  headers: any
+  config: AxiosRequestConfig
+  request: any
+}
+
+// 这里为什么要继承Promise类
+// 因为我们希望返回的类型是Promise类型的，但是不能直接定义返回类型为Promise，所以用一个接口去定义返回的类型为Promise
+// 这里的Promise类是tsc内置的Promise泛型接口
+export interface AxiosPromise extends Promise<AxiosResponse> {}
+
+export interface AxiosError extends Error {
+  isAxiosError: boolean
+  config: AxiosRequestConfig
+  code?: string | null
+  request?: any
+  response?: AxiosResponse
 }
