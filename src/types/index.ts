@@ -1,3 +1,4 @@
+import { Interceptor } from '../core/Axios'
 // 全局类型配置
 
 // 定义method的字符串字面量类型
@@ -55,6 +56,8 @@ export interface AxiosError extends Error {
 }
 
 export interface Axios {
+  interceptors: Interceptor
+
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   get<T = any>(url: string, config?: AxiosPromise): AxiosPromise<T>
@@ -76,4 +79,20 @@ export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+export interface AxiosInterceptorManager<T> {
+  // 设置拦截器方法，返回值number用来记录拦截器方法的位置
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
+
+  // 删除number位置的拦截器方法
+  eject(id: number): void
+}
+
+export interface ResolvedFn<T> {
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
 }
