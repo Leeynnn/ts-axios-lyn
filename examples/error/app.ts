@@ -6,7 +6,7 @@ axios({
   url: '/error/get1'
 }).then((res) => {
   console.log(res)
-}).catch((e) => {
+}).catch((e) => { 
   console.log(e)
 })
 
